@@ -30,19 +30,18 @@ services:
 
   mysql:
     image: mysql:8.0.39
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
     command:
       --max_connections=1000
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
       --default-authentication-plugin=mysql_native_password
       --tls_version="TLSv1.2,TLSv1.3"
-      --init-file /data/application/init.sql
       --binlog_expire_logs_seconds=604800
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DBNAME:-rag_flow}
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init.sql:/data/application/init.sql
     networks:
       - ragflow
     healthcheck:
@@ -98,11 +97,6 @@ services:
       - coolify.port=80
     volumes:
       - ragflow_logs:/ragflow/logs
-      - ./nginx/ragflow.conf:/etc/nginx/conf.d/ragflow.conf
-      - ./nginx/proxy.conf:/etc/nginx/proxy.conf
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./service_conf.yaml.template:/ragflow/conf/service_conf.yaml.template
-      - ./entrypoint.sh:/ragflow/entrypoint.sh
     environment:
       - TZ=${TZ:-Europe/Berlin}
       - DOC_ENGINE=${DOC_ENGINE:-elasticsearch}
