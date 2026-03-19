@@ -86,6 +86,12 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      es01:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     image: ${RAGFLOW_IMAGE:-infiniflow/ragflow:v0.24.0}
     entrypoint: ["/bin/bash", "-c"]
     command:
