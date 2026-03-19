@@ -42,7 +42,7 @@ services:
       - MYSQL_ROOT_HOST=%
       - MYSQL_DATABASE=${MYSQL_DBNAME:-rag_flow}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data_v2:/var/lib/mysql
     networks:
       - ragflow
     healthcheck:
@@ -205,7 +205,7 @@ services:
 volumes:
   esdata01:
     driver: local
-  mysql_data:
+  mysql_data_v2:
     driver: local
   minio_data:
     driver: local
