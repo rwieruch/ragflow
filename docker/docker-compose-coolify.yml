@@ -39,6 +39,7 @@ services:
       --binlog_expire_logs_seconds=604800
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_HOST=%
       - MYSQL_DATABASE=${MYSQL_DBNAME:-rag_flow}
     volumes:
       - mysql_data:/var/lib/mysql
